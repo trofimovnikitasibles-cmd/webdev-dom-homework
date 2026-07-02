@@ -64,8 +64,58 @@
   </body>
 
   <script>
-    "use strict";
-    // Код писать здесь
+     "use strict";
+    const commentsList = document.querySelector(".comments");
+    const nameInput = document.querySelector(".add-form-name");
+    const textInput = document.querySelector(".add-form-text");
+    const addFormButton = document.querySelector(".add-form-button");
+
+    nameInput.addEventListener("input", () => {
+      nameInput.classList.remove("-error");
+    });
+
+    textInput.addEventListener("input", () => {
+      textInput.classList.remove("-error");
+    });
+
+    addFormButton.addEventListener("click", () => {
+      if (nameInput.value.trim() === "" || textInput.value.trim() === "") {
+        alert("Пожалуйста, заполните оба поля: имя и комментарий.");
+        return;
+      }
+      const currentDate = new Date();
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      const year = String(currentDate.getFullYear()).slice(-2);
+      const hours = String(currentDate.getHours()).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      
+      const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+
+      const newCommentHtml = `
+        <li class="comment">
+          <div class="comment-header">
+            <div>${nameInput.value}</div>
+            <div>${formattedDate}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${textInput.value}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">0</span>
+              <button class="like-button"></button>
+            </div>
+          </div>
+        </li>
+      `;
+      commentsList.innerHTML += newCommentHtml;
+
+      nameInput.value = "";
+      textInput.value = "";
+    });
     console.log("It works!");
   </script>
 </html>
